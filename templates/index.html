@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>GUESS THE NUMBER</title>
+    <style>
+:root{
+    --primary-bg: #1a0731;
+    --box-bg:#2d1b4d;
+    --neon-pink: #ff00ff;
+    --neon-cyan:#00ffff;
+    --neon-yellow:#ffff00;
+    --border-width:4px;
+}
+body{
+    background-color :var(--primary-bg);
+    color:white;
+    font-family:'Press Start 2P',cursive;
+    text-align:center;
+    line-height:1.6;
+    margin:0;
+    padding:20px;
+}
+h1{
+    font-size:1.2rem;
+    color:var(--neon-cyan);
+    text-shadow: 4px 4px 0px #000
+}
+input,select{
+    padding:10px;
+    border:var(--border-width) soild #000;
+    background:#fff;
+    color:#000;
+    font-family:'Press Start 2P',cursive;
+    font-size:0.8rem;
+    outline:none;
+    margin-bottom:10px;
+}
+button{
+    padding: 10px,15px;
+    border:3px soild white:
+    background:black;
+    color:black;
+    cursor:pointer;
+    font-family:'Press Start 2P',cursive;
+    
+}
+button:hover{
+    background:var(--neon-cyan);
+    tranform:translate(-2px,-2px);
+    box-shadow:6px 6px 0px #000;
+}
+
+button:active{
+    transform: translate(2px,2px);
+    box-shadow: 0px 0px 0px #000
+}
+
+a{
+    color:var(--neon-cyan);
+    text-decoration:none;
+    display:inline-block;
+    margin-top:20px;
+    border-bottom:2px solid var(--neon-cyan);
+}
+.message{
+    color:var(--neon-yellow):
+    margin:20px 0;
+    font-size: 0.9rem;
+}
+.win-overlay{
+    position:fixed;
+    top:0;left: 0;width: 100%;height:100%;
+    background:rgba(0,0,0,0.85);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+}
+win-content{
+    background:var(--box-bg);
+    border:6px soild var(--neon-yellow);
+    padding:40px;
+    box-shadow: 10px 10px 0px var(--neon-pink);
+}
+.game-box{
+    width:600px;
+    margin: 80px auto;
+    padding 30px;
+    background: var(--box-bg);
+    border:var(--border-width) solid #fff;
+    box-shadow: 8px 8px 0px var(--neon-pink);
+    position: relative;
+}
+    </style>
+</head>
+<body>
+<div class="game-box">
+    <h1>SELECT THE DIFFICULTY LEVEL</h1>
+    <form action='/set_difficulty' method="POST">
+        <select name="lvl">
+            <option value="easy"  {% if level == "easy" %}selected{% endif %}>Easy (1-50)</option>
+            <option value="medium"  {% if level == "medium" %}selected{% endif %}>Medium (1-100)</option>
+            <option value="hard"  {% if level == "hard" %}selected{% endif %}>Hard (1-500) </option>
+        </select>
+        <button type="submit">Set difficulty</button>
+    </form>
+</div>
+
+    <div class="game-box">
+    <h1>GUESS THE NUMBER</h1>
+    <form action="/guess" method ="POST">
+        <input type="number" name ="guess" required>
+        <button type="submit">My Guess</button>
+    </form>
+    <p>{{message}}</p>
+    <p>Attempts: {{attempts}} </p>
+
+    <a href="/reset">Restart</a>
+
+    {% if win %}
+    <div class="win-overlay" style="
+    background :rgba(0,0,0,0.6);
+    " >
+        <div class='win-content' style = "border-radius: 10px; text-align:center">
+            <h2>You won!</h2>
+            <p>Attempts:{{attempts}}
+
+            <a href="/reset"><button>Play Again!</button>
+            </a>
+        </div>
+
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
